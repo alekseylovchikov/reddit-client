@@ -12,7 +12,7 @@ export default function Home() {
   const { data: posts } = useSWR('/posts');
 
   return (
-    <div className="pt-12">
+    <>
       <Head>
         <title>Reddit clone</title>
         <link rel="icon" href="/favicon.ico" />
@@ -26,7 +26,7 @@ export default function Home() {
         </div>
         {/* sidebar */}
       </div>
-    </div>
+    </>
   );
 }
 
