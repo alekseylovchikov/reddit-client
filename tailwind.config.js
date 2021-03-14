@@ -3,7 +3,7 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     fontFamily: {
-      body: ['IBM Plex Sans']
+      body: ['IBM Plex Sans'],
     },
     extend: {
       colors: {
@@ -16,21 +16,24 @@ module.exports = {
           600: '#0061a9',
           700: '#00497f',
           800: '#003054',
-          900: '#00182a'
-        }
+          900: '#00182a',
+        },
       },
       spacing: {
         70: '17.5rem',
         160: '40rem',
       },
       container: false,
-    }
+    },
   },
   variants: {
-    extend: {}
+    extend: {
+      backgroundColor: ['disabled'],
+      borderColor: ['disabled'],
+    },
   },
   plugins: [
-    function({ addComponents }) {
+    function ({ addComponents }) {
       addComponents({
         '.container': {
           width: '100%',
@@ -39,8 +42,8 @@ module.exports = {
           '@screen sm': { maxWidth: '640px' },
           '@screen md': { maxWidth: '768px' },
           '@screen lg': { maxWidth: '975px' },
-        }
-      })
+        },
+      });
     },
-  ]
+  ],
 };

@@ -12,14 +12,10 @@ interface PostCardProps {
   post: Post;
 }
 
-const ActionButton = ({ children }) => (
-  <div className="px-1 py-1 mr-1 text-gray-400 rounded cursor-pointer hover:bg-gray-200">
-    {children}
-  </div>
-);
+import ActionButton from './ActionButton';
 
 export default function PostCard({ post }: PostCardProps) {
-  const vote = async (value) => {
+  const vote = async (value: number) => {
     try {
       const res = await axios.post('/misc/vote', {
         identifier: post.identifier,

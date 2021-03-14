@@ -31,7 +31,8 @@ export default function Register() {
 
       dispatch('LOGIN', res.data);
 
-      router.push('/');
+      // router.push('/');
+      router.back();
     } catch (error) {
       setErrors(error.response.data);
     }
