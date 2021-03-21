@@ -45,4 +45,5 @@ export interface Comment {
   username: string;
   userVote: number;
   voteScore: number;
+  post?: Post;
 }

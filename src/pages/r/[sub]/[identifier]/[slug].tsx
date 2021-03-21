@@ -14,11 +14,12 @@ import { useAuthState } from '../../../../context/auth';
 import { Post, Comment } from '../../../../types';
 import Sidebar from '../../../../components/Sidebar';
 import ActionButton from '../../../../components/ActionButton';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 
 export default function PostPage() {
-  const router = useRouter();
   const [newComment, setNewComment] = useState('');
+  const [description, setDescription] = useState('');
+  const router = useRouter();
   const { identifier, sub, slug } = router.query;
   const { authenticated, user } = useAuthState();
 
@@ -32,6 +33,14 @@ export default function PostPage() {
   );
 
   if (error) router.push('/');
+
+  useEffect(() => {
+    if (!post) return;
+
+    let desc = post.body || post.title;
+    desc = desc.substring(0, 158).concat('..');
+    setDescription(desc);
+  }, [post]);
 
   const vote = async (value: number, comment?: Comment) => {
     if (!authenticated) await router.push('/login');
@@ -80,13 +89,18 @@ export default function PostPage() {
     <>
       <Head>
         <title>{post?.title}</title>
+        <meta name="description" content={description} />
+        <meta property="og:description" content={description} />
+        <meta property="og:title" content={post?.title} />
+        <meta property="twitter:description" content={description} />
+        <meta property="twitter:title" content={post?.title} />
       </Head>
       <Link href={`/r/${sub}`}>
         <a>
           <div className="flex items-center w-full h-20 p-8 bg-blue-500">
             <div className="container flex">
               {post && (
-                <div className="rounded-full w-8 h-8 mr-2 overflow-hidden">
+                <div className="w-8 h-8 mr-2 overflow-hidden rounded-full">
                   <Image
                     src={post.sub.imageUrl}
                     height={(8 * 16) / 4}
@@ -192,7 +206,7 @@ export default function PostPage() {
                           onChange={(e) =>
                             setNewComment(e.target.value)
                           }
-                          className="rounded w-full p-3 border border-gray-300 focus:outline-none focus:border-gray-600"
+                          className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-gray-600"
                         />
                         <div className="flex justify-end">
                           <button
@@ -205,13 +219,13 @@ export default function PostPage() {
                       </form>
                     </div>
                   ) : (
-                    <div className="flex items-center px-2 justify-between py-4 border border-gray-300 rounded">
+                    <div className="flex items-center justify-between px-2 py-4 border border-gray-300 rounded">
                       <p className="text-gray-700">
                         Log in or sign in up to leave a comment
                       </p>
                       <div>
                         <Link href="/login">
-                          <a className="px-4 py-1 hollow blue button mr-2">
+                          <a className="px-4 py-1 mr-2 hollow blue button">
                             Login
                           </a>
                         </Link>
